@@ -1,4 +1,6 @@
 import time
+
+from matplotlib.cbook import index_of
 from options.train_options import TrainOptions
 from data import CreateDataLoader
 from models import create_model
@@ -20,6 +22,7 @@ if __name__ == '__main__':
         epoch_start_time = time.time()
         iter_data_time = time.time()
         epoch_iter = 0
+        index_of_index = 1
 
         for i, data in enumerate(dataset):
             iter_start_time = time.time()
@@ -33,7 +36,8 @@ if __name__ == '__main__':
 
             if total_steps % opt.display_freq == 0:
                 save_result = total_steps % opt.update_html_freq == 0
-                visualizer.display_current_results(model.get_current_visuals(), epoch, save_result)
+                visualizer.display_current_results(model.get_current_visuals(), epoch, save_result, index_of_index)
+                index_of_index += 1
 
             if total_steps % opt.print_freq == 0:
                 losses = model.get_current_losses()
